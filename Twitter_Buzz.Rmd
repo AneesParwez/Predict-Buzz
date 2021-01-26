@@ -1,0 +1,45 @@
+---
+title: "TwitterBuzz"
+author: "Anees Parwez"
+date: "1/26/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+Loading Data:
+```{r}
+Data=read.table("C:\\Users\\SHAHID\\Desktop\\Academic\\M-Sem1\\Project and Assinment\\Re Tec\\Twitter Buzz\\Twitter\\Twitter_data.txt",header=FALSE,sep=",")
+```
+
+For interpretation of traits, it is important we identify the columns. Hence, add appropriate column names:
+```{r}
+variables=c("NCD","AI","AS(NA)","BL","NAC","AS(NAC)","CS","AT","NA","ADL","NAD")
+for(k in 1:11){
+  for(j in 1: 7){
+    names(Data)[7*(k-1)+j]=paste(variables[k],j%%7,sep="")
+  }
+    names(Data)[7*k]=paste(variables[k],7,sep="")
+}
+names(Data)[78]="Response"
+names(Data)
+```
+
+The way variables are described, we sense presence of multicollinearity which we subsequently explore by scatter plots:
+
+```{r}
+library(ggplot2)
+ggplot(data=Data,aes(x=NCD1,y=AI1))+ geom_point() +labs(x="NCD 1",y="AI 1") + 
+ ggtitle("Counts of NCD and AI at first TimePoint")
+```
+```{r}
+ggplot(data=Data,aes(x=NA2,y=NA3))+ geom_point() +labs(x="NA 2",y="NA 3") + 
+ggtitle("Number of Author Interacting at different TimePoints")
+
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
